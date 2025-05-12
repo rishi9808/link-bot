@@ -32,6 +32,7 @@ export async function GET(req: NextRequest) {
     );
 
     const { access_token } = tokenRes.data;
+    console.log('Access Token:', access_token);
 
     // Fetch user's profile
     const profileRes = await axios.get('https://api.linkedin.com/v2/me', {
@@ -40,21 +41,21 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    // Fetch user's email
-    const emailRes = await axios.get(
-      'https://api.linkedin.com/v2/emailAddress?q=members&projection=(elements*(handle~))',
-      {
-        headers: {
-          Authorization: `Bearer ${access_token}`,
-        },
-      }
-    );
+    // // Fetch user's email
+    // const emailRes = await axios.get(
+    //   'https://api.linkedin.com/v2/emailAddress?q=members&projection=(elements*(handle~))',
+    //   {
+    //     headers: {
+    //       Authorization: `Bearer ${access_token}`,
+    //     },
+    //   }
+    // );
 
     const user = {
       id: profileRes.data.id,
       firstName: profileRes.data.localizedFirstName,
       lastName: profileRes.data.localizedLastName,
-      email: emailRes.data.elements[0]['handle~'].emailAddress,
+      // email: emailRes.data.elements[0]['handle~'].emailAddress,
     };
 
     // Return user data
