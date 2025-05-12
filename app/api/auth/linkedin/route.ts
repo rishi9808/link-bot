@@ -7,7 +7,7 @@ export async function GET() {
 
   const authUrl = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(
     redirectUri
-  )}&scope=r_liteprofile%20r_emailaddress`;
+  )}&state=foobar&scope=r_liteprofile%20r_emailaddress`;
 
   return NextResponse.json({ authUrl });
 }
