@@ -14,12 +14,12 @@ export async function GET(req: NextRequest) {
   const redirectUri = process.env.LINKEDIN_REDIRECT_URI!;
 
   try {
-    // 1. Exchange authorization code for access token
+    // Exchange authorization code for access token
     const tokenRes = await axios.post(
       'https://www.linkedin.com/oauth/v2/accessToken',
       new URLSearchParams({
         grant_type: 'authorization_code',
-        response_type: 'code',
+        code,
         redirect_uri: redirectUri,
         client_id: clientId,
         client_secret: clientSecret,
@@ -33,14 +33,14 @@ export async function GET(req: NextRequest) {
 
     const { access_token } = tokenRes.data;
 
-    // 2. Fetch user's profile
+    // Fetch user's profile
     const profileRes = await axios.get('https://api.linkedin.com/v2/me', {
       headers: {
         Authorization: `Bearer ${access_token}`,
       },
     });
 
-    // 3. Fetch user's email
+    // Fetch user's email
     const emailRes = await axios.get(
       'https://api.linkedin.com/v2/emailAddress?q=members&projection=(elements*(handle~))',
       {
@@ -57,7 +57,7 @@ export async function GET(req: NextRequest) {
       email: emailRes.data.elements[0]['handle~'].emailAddress,
     };
 
-    // You can store user in DB or return it to client
+    // Return user data
     return NextResponse.json({ user });
   } catch (error: unknown) {
     if (axios.isAxiosError(error) && error.response) {
