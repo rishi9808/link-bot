@@ -19,7 +19,7 @@ export async function GET(req: NextRequest) {
       'https://www.linkedin.com/oauth/v2/accessToken',
       new URLSearchParams({
         grant_type: 'authorization_code',
-        code,
+        response_type: 'code',
         redirect_uri: redirectUri,
         client_id: clientId,
         client_secret: clientSecret,
