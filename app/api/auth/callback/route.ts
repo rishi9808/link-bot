@@ -41,6 +41,10 @@ export async function GET(req: NextRequest) {
       },
     });
 
+    console.log('Profile Data:', profileRes.data);
+
+    return NextResponse.json({ profile: profileRes.data });
+
     // // Fetch user's email
     // const emailRes = await axios.get(
     //   'https://api.linkedin.com/v2/emailAddress?q=members&projection=(elements*(handle~))',
@@ -51,15 +55,15 @@ export async function GET(req: NextRequest) {
     //   }
     // );
 
-    const user = {
-      id: profileRes.data.id,
-      firstName: profileRes.data.localizedFirstName,
-      lastName: profileRes.data.localizedLastName,
-      // email: emailRes.data.elements[0]['handle~'].emailAddress,
-    };
+    // const user = {
+    //   id: profileRes.data.id,
+    //   firstName: profileRes.data.localizedFirstName,
+    //   lastName: profileRes.data.localizedLastName,
+    //   // email: emailRes.data.elements[0]['handle~'].emailAddress,
+    // };
 
     // Return user data
-    return NextResponse.json({ user });
+    // return NextResponse.json({ user });
   } catch (error: unknown) {
     if (axios.isAxiosError(error) && error.response) {
       console.error('LinkedIn OAuth error:', error.response.data);
